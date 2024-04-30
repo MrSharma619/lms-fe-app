@@ -1,4 +1,6 @@
 import "./style.css";
+import AssignmentMenu from "../../menu/assignment-menu";
+
 
 const AssignmentCard = () => {
   return (
@@ -17,20 +19,25 @@ const AssignmentCard = () => {
           <div className="space-y-5">
             <div className="space-y-2">
               <h1 className="font-bold text-lg">Android app</h1>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-700 text-sm">
                 Use android sdk 15 to make this mobile app.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-2 items-center">
-              {[1, 2, 3].map((item) => (
-                <span className="py-1 px-5 rounded-full techstack">
+              {[1, 2, 3].map((item, i) => (
+                <span key={i} className="py-1 px-5 rounded-full techstack">
                     Android
                 </span>
               ))}
             </div>
           </div>
         </div>
+
+        <div>
+          <AssignmentMenu />
+        </div>
+
       </div>
     </div>
   );
