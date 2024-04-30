@@ -5,7 +5,7 @@
 /* apply background gradient */
 
 html {
-    height: 100%;
+    height: auto;
 }
 
 body {

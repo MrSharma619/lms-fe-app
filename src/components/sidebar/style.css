@@ -1,0 +1,32 @@
+.card{
+    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+    box-shadow: black 0px 0px 10px;
+    padding: 1rem;
+    border-radius: 5px;
+ } 
+
+
+ .activeMenuItem{
+    background-color: black !important;
+    color: white;
+    font-weight: bold;
+ }
+
+ .menuItem{
+    border: 2px solid #f3f354 !important;
+    color: black;
+    font-weight: bold;
+ }
+
+ .logoutBtn{
+    color: white !important;
+    background-color: rgba(255, 0, 0, 0.833) !important;    /* shade of red */
+    padding: 0.7rem !important;
+    border-radius: 2rem !important;
+ }
+
+ /* not used yet */
+ .customBtn{
+    color: white;
+    background-image: linear-gradient(150deg, #c24dd0 0%, #7a72fa 100%);
+ }

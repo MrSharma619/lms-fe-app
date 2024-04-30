@@ -1,0 +1,13 @@
+.cardTask{
+    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+    box-shadow: black 0px 0px 10px;
+    padding: 1rem;
+    border-radius: 5px;
+ } 
+
+ .techstack{
+    border: 2px solid #f3f354;
+    color: black;
+    font-weight: 600;  
+    padding: 0.5rem 2rem;
+ }
