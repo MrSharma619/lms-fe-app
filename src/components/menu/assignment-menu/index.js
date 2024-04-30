@@ -6,11 +6,15 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import StudentList from "../../assignment/student-list";
 import SubmissionList from "../../assignment/submission-list";
+import EditAssignment from "../../assignment/edit-assignment";
+import DeleteAssignment from "../../assignment/delete-assignment";
 
 export default function AssignmentMenu() {
   const [anchorEl, setAnchorEl] = useState(false);
   const [openStudentList, setOpenStudentList] = useState(false);
   const [openSubmissionList, setOpenSubmissionList] = useState(false);
+  const [openEditWindow, setOpenEditWindow] = useState(false);
+  const [openDeleteWindow, setOpenDeleteWindow] = useState(false);
 
   const isMenuOpen = anchorEl;
 
@@ -22,45 +26,58 @@ export default function AssignmentMenu() {
     setAnchorEl(false);
   };
 
-  const goToProfile = () => {
-    console.log("goToProfile");
-  };
-
   const assignToUser = () => {
-    setOpenStudentList(true);
 
     handleClose();
 
+    setOpenStudentList(true);
+    
   };
 
   const closeStudentList = () => {
     setOpenStudentList(false);
-  }
+  };
 
   const seeSubmissions = () => {
-    setOpenSubmissionList(true);
 
     handleClose();
+
+    setOpenSubmissionList(true);
 
   };
 
   const closeSubmissionList = () => {
     setOpenSubmissionList(false);
-  }
+  };
 
   const editAssignment = () => {
-    console.log("editAssignment");
+    
+    handleClose();
+
+    setOpenEditWindow(true);
+
+  };
+
+  const closeEditWindow = () => {
+    setOpenEditWindow(false);
   };
 
   const deleteAssignment = () => {
-    console.log("deleteAssignment");
+
+    handleClose();
+
+    setOpenDeleteWindow(true);
+
+  };
+
+  const closeDeleteWindow = () => {
+    setOpenDeleteWindow(false);
   };
 
   const CURRENT_USER_ROLE = "ROLE_TEACHER";
 
   return (
     <div>
-
       <IconButton
         id="basic-button"
         aria-controls={isMenuOpen ? "basic-menu" : undefined}
@@ -80,8 +97,6 @@ export default function AssignmentMenu() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={goToProfile}>Profile</MenuItem>
-
         {CURRENT_USER_ROLE === "ROLE_TEACHER" ? (
           <>
             <MenuItem onClick={assignToUser}>Assign to user</MenuItem>
@@ -96,8 +111,18 @@ export default function AssignmentMenu() {
 
       <StudentList open={openStudentList} handleClose={closeStudentList} />
 
-      <SubmissionList open={openSubmissionList} handleClose={closeSubmissionList} />
+      <SubmissionList
+        open={openSubmissionList}
+        handleClose={closeSubmissionList}
+      />
 
+      <EditAssignment open={openEditWindow} handleClose={closeEditWindow} />
+
+      {/* pending */}
+      <DeleteAssignment
+        open={openDeleteWindow}
+        handleClose={closeDeleteWindow}
+      />
     </div>
   );
 }

@@ -1,23 +1,25 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import SubmissionCard from "../submission-card";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
+  width: 500,
+  backgroundImage:
+    "linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)",
+  border: "1px solid #000",
+  boxShadow:
+    "0px -25px 20px 50px rgba(0,0,0,0.45), 25px 0px 20px -20px rgba(0,0,0,0.45), 0px 25px 20px 50px rgba(0,0,0,0.45), -25px 0px 20px -20px rgba(0,0,0,0.45)",
   p: 4,
 };
 
-export default function SubmissionList({open, handleClose}) {
-  
+const submissionList = [1, 2, 3];
 
+export default function SubmissionList({ open, handleClose }) {
   return (
     <div>
       <Modal
@@ -27,10 +29,15 @@ export default function SubmissionList({open, handleClose}) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            submissions
-          </Typography>
-          
+          <div className="space-y-2">
+            {submissionList.length === 0 && (
+              <div className="text-center">No Submissions found!</div>
+            )}
+
+            {submissionList.map((item) => (
+              <SubmissionCard />
+            ))}
+          </div>
         </Box>
       </Modal>
     </div>
