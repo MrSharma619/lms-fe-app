@@ -1,0 +1,10 @@
+.btn-route-login {
+  width: 70%;
+  font-size: 18px;
+  background-image: linear-gradient(white, #dedede);
+  border: 1px solid #b8b8b8;
+  border-top-color: #dedede;
+  color: #444;
+  border-radius: 4px;
+  cursor: pointer;
+}

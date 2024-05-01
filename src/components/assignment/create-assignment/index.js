@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function EditAssignment({ open, handleClose }) {
+export default function CreateAssignment({ open, handleClose }) {
   const [formData, setFormData] = useState({
     title: "",
     imageUrl: "",
@@ -169,7 +169,7 @@ export default function EditAssignment({ open, handleClose }) {
                 sx={{padding: "1rem"}}
                 type="submit"
                 >
-                  Update
+                  Submit
                 </Button>
 
               </Grid>
