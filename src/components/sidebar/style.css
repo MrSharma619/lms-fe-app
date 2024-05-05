@@ -20,6 +20,7 @@
 
  .logoutBtn{
     color: white !important;
+    font-weight: bold !important;
     background-color: rgba(255, 0, 0, 0.833) !important;    /* shade of red */
     padding: 0.7rem !important;
     border-radius: 2rem !important;

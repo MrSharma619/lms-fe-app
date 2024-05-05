@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import {
@@ -10,6 +10,9 @@ import {
   ListItemText,
 } from "@mui/material";
 import "./style.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserList } from "../../../redux/slice/auth-slice";
+import { assignTaskToUser } from "../../../redux/slice/assignment-slice";
 
 const style = {
   position: "absolute",
@@ -25,9 +28,22 @@ const style = {
   outline: "none",
 };
 
-const userList = [1, 2, 3];
+export default function StudentList({ open, handleClose, item }) {
+  const dispatch = useDispatch();
+  const { auth } = useSelector((store) => store);
 
-export default function StudentList({ open, handleClose }) {
+  const userList = auth.users.filter((user) => user.role === "ROLE_STUDENT");
+
+  useEffect(() => {
+    dispatch(getUserList(localStorage.getItem("token")));
+  }, [dispatch]);
+
+  const handleAssignmentToUser = (userId) => {
+
+    dispatch(assignTaskToUser({ assignmentId: item.id, userId: userId }));
+
+  }
+
   return (
     <div>
       <Modal
@@ -37,27 +53,31 @@ export default function StudentList({ open, handleClose }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {userList.map((item, index) => (
-            <>
+          {userList?.map((user, index) => (
+            <div key={index}>
               <div className="flex items-center justify-between w-full">
                 <div>
                   <ListItem>
                     <ListItemAvatar>
-                      <Avatar>M</Avatar>
+                      <Avatar>
+                        {user.fullName.substring(0, 1).toUpperCase()}
+                      </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={"Manthan"} secondary={"@manthan"} />
+                    <ListItemText
+                      primary={user.fullName}
+                      secondary={user.email}
+                    />
                     {/*  name and email id */}
                   </ListItem>
                 </div>
 
                 <div>
-                  <Button className="customBtn">Select</Button>
+                  <Button onClick={() => handleAssignmentToUser(user.id)} className="customBtn">Select</Button>
                 </div>
               </div>
-
-              {index !== userList.length - 1 && <Divider variant="inset" />} {/* no divider for last item */}
-
-            </>
+              {index !== userList.length - 1 && <Divider variant="inset" />}{" "}
+              {/* no divider for last item */}
+            </div>
           ))}
         </Box>
       </Modal>

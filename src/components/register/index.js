@@ -1,8 +1,13 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useState } from "react";
 import './style.css';
+import { useDispatch } from "react-redux";
+import { register } from "../../redux/slice/auth-slice";
 
 const RegisterSegment = ({togglePanel}) => {
+
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -22,7 +27,9 @@ const RegisterSegment = ({togglePanel}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("fd", formData);
+    dispatch(register(formData));
+
+    //console.log("fd", formData);
   };
 
   return (

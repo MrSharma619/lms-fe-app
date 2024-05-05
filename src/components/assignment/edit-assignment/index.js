@@ -4,6 +4,9 @@ import Modal from "@mui/material/Modal";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useDispatch } from "react-redux";
+import { updateAssignment } from "../../../redux/slice/assignment-slice";
+//import dayjs from "dayjs";
 
 const style = {
   position: "absolute",
@@ -19,16 +22,13 @@ const style = {
   p: 4,
 };
 
-export default function EditAssignment({ open, handleClose }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    imageUrl: "",
-    description: "",
-    tags: [],
-    deadline: new Date(),
-  });
+export default function EditAssignment({ open, handleClose, item }) {
 
-  const [selectedTags, setSelectedTags] = useState([]);
+  const dispatch = useDispatch();
+
+  const [formData, setFormData] = useState(item);
+
+  const [selectedTags, setSelectedTags] = useState(formData.tags);
 
   const tags = ["Android", "Java", "React", "SBoot", "Maven", "Gradle"];
 
@@ -57,7 +57,12 @@ export default function EditAssignment({ open, handleClose }) {
     e.preventDefault();
     formData.deadline = formatDate(formData.deadline);
     
+    //console.log("stag", selectedTags);
     formData.tags = selectedTags;
+
+    //console.log("fd", formData);
+
+    dispatch(updateAssignment({ assignmentId:item.id, updatedAssignmentData:formData }));
 
     //console.log("fd", formData);
 
@@ -86,7 +91,12 @@ export default function EditAssignment({ open, handleClose }) {
 
     return date.toISOString();
 
+    //return dayjs(input).toISOString();
+
   }
+
+  // const dt = dayjs(formData.deadline).toDate();
+  // console.log(dt);
 
   return (
     <div>
@@ -136,6 +146,7 @@ export default function EditAssignment({ open, handleClose }) {
                   multiple
                   id="multiple-tags"
                   options={tags}
+                  value={selectedTags}
                   onChange={handleTagChange}
                   getOptionLabel={(option) => option}
                   renderInput={(params) => (
@@ -148,10 +159,12 @@ export default function EditAssignment({ open, handleClose }) {
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
 
+{/** pending */}
                   <DateTimePicker 
                   className="w-full"
                   label="Deadline" 
                   name="deadline" 
+                  //value={dt}
                   onChange={handleDeadlineChange}
                   renderInput={(params) => (
                     <TextField {...params} />

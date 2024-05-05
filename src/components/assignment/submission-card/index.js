@@ -64,7 +64,7 @@ const SubmissionCard = () => {
         </Button>
       )}
 
-      <div></div>
+      
     </div>
   );
 };

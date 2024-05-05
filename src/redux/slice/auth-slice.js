@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
-import { BASE_URL, api, setAuthHeader } from "../../api/api";
+import { BASE_URL, api, setAuthHeader } from "../../axios/api";
 
 //auth slice thats why and method name (follow this naming convention for thunk)
 //remember this has nothing to do with api path, just naming to identify thunk for this api call or anything else
@@ -53,9 +53,13 @@ export const getUserProfile = createAsyncThunk("auth/getUserProfile", async(toke
     setAuthHeader(token, api);
 
     try{
+
         const { data } = await api.get("/api/user/profile")
 
+        //console.log("data", data);
+
         return data;
+
     }
     catch(error){
         console.log("authslice->getUserProfile: ", error);
@@ -87,6 +91,7 @@ export const getUserList = createAsyncThunk("auth/getUserList", async(token) => 
 const authSlice = createSlice({
   //use same name as given in thunk naming otherwise wont work
   name: "auth",
+  //this state can be used using reducer defined in store.js
   initialState: {
     user: null,
     loggedIn: false,
@@ -161,7 +166,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.error.message; //error thrown in catch block above will be here
     })
-    
+
     //logout
     .addCase(logout.fulfilled, (state) => {
         state.user = null;

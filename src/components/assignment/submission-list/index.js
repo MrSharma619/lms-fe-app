@@ -34,8 +34,8 @@ export default function SubmissionList({ open, handleClose }) {
               <div className="text-center">No Submissions found!</div>
             )}
 
-            {submissionList.map((item) => (
-              <SubmissionCard />
+            {submissionList.map((item, i) => (
+              <SubmissionCard key={i}/>
             ))}
           </div>
         </Box>

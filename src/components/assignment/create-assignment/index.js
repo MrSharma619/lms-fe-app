@@ -4,6 +4,8 @@ import Modal from "@mui/material/Modal";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useDispatch } from "react-redux";
+import { createAssignment } from "../../../redux/slice/assignment-slice";
 
 const style = {
   position: "absolute",
@@ -20,6 +22,9 @@ const style = {
 };
 
 export default function CreateAssignment({ open, handleClose }) {
+
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     title: "",
     imageUrl: "",
@@ -58,6 +63,16 @@ export default function CreateAssignment({ open, handleClose }) {
     formData.deadline = formatDate(formData.deadline);
     
     formData.tags = selectedTags;
+
+    dispatch(createAssignment(formData));
+
+    setFormData({
+      title: "",
+      imageUrl: "",
+      description: "",
+      tags: [],
+      deadline: new Date(),
+    });
 
     //console.log("fd", formData);
 

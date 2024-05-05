@@ -3,6 +3,8 @@ import "./style.css";
 import { useState } from "react";
 import CreateAssignment from "../assignment/create-assignment";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/slice/auth-slice";
 
 const menuItems = [
   {
@@ -14,7 +16,7 @@ const menuItems = [
   {
     id: 2,
     name: "Finished Tasks",
-    value: "Completed",
+    value: "Done",
     role: ["ROLE_TEACHER", "ROLE_STUDENT"],
   },
   {
@@ -47,6 +49,7 @@ const CURRENT_USER_ROLE = "ROLE_TEACHER";
 
 const Sidebar = () => {
 
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -92,7 +95,10 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    console.log("log out");
+    //console.log("log out");
+
+    dispatch(logout());
+
   };
 
   return (
