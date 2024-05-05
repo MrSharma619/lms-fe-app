@@ -3,13 +3,18 @@ import Home from "./components/home/home";
 import Navbar from "./components/navbar/navbar";
 
 function App() {
+  const user = true;
+
   return (
     <div>
-      {/* <Navbar />
-      <Home /> */}
-
-      <FrontPage />
-
+      {user ? (
+        <div>
+          <Navbar />
+          <Home />
+        </div>
+      ) : (
+        <FrontPage />
+      )}
     </div>
   );
 }

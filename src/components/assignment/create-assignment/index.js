@@ -13,7 +13,7 @@ const style = {
   width: 400,
   backgroundImage:
     "linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)",
-  border: "1px solid #000",
+  outline: "none",
   boxShadow:
     "0px -25px 20px 50px rgba(0,0,0,0.45), 25px 0px 20px -20px rgba(0,0,0,0.45), 0px 25px 20px 50px rgba(0,0,0,0.45), -25px 0px 20px -20px rgba(0,0,0,0.45)",
   p: 4,

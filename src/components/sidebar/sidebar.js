@@ -2,6 +2,7 @@ import { Avatar, Button } from "@mui/material";
 import "./style.css";
 import { useState } from "react";
 import CreateAssignment from "../assignment/create-assignment";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const menuItems = [
   {
@@ -45,6 +46,10 @@ const menuItems = [
 const CURRENT_USER_ROLE = "ROLE_TEACHER";
 
 const Sidebar = () => {
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [activeMenu, setActiveMenu] = useState("Home"); //by default on Home
 
   const [openCreateAssignmentWindow, setOpenCreateAssignmentWindow] = useState(false);
@@ -62,8 +67,25 @@ const Sidebar = () => {
   };
 
   const handleMenuChange = (item) => {
+
+    const updatedParams = new URLSearchParams(location.search);
+
     if (item.value === "") {
       openNewAssignmentWindow();
+    }
+    // /login?filter=hi&sort=asc
+    else if(item.value === "Home"){
+      updatedParams.delete("filter");
+
+      // /login?sort=asc
+      const queryString = updatedParams.toString();
+      const updatedPath = queryString ? `${location.pathname}?${queryString}` : location.pathname
+
+      navigate(updatedPath);
+    }
+    else{
+      updatedParams.set("filter", item.value.toLowerCase());
+      navigate(`${location.pathname}?${updatedParams.toString()}`)
     }
 
     setActiveMenu(item.value);
@@ -76,9 +98,7 @@ const Sidebar = () => {
   return (
     <>
       <div className=" card min-h-[85vh] flex flex-col justify-center fixed w-[20vw]">
-        <div className="space-y-5 h-full">
-          {" "}
-          {/*  margin top and bottom */}
+        <div className="space-y-5 h-full">              {/*  margin top and bottom */}
           <div className="flex justify-center">
             <Avatar
               sx={{ width: "8rem", height: "8rem" }}

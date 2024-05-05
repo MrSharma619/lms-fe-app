@@ -12,7 +12,7 @@ const FrontPage = () => {
     }
 
     return ( 
-        <div className="flex justify-center h-screen items-center overflow-hidden">
+        <div className="front-page flex justify-center h-screen items-center overflow-hidden">
             <div className="box  lg:max-w-4xl">
                 <div className={`cover ${isRegister ? "rotate-active" : ""}`}>
 
