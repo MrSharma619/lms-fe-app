@@ -3,7 +3,7 @@ import "./style.css";
 import { useState } from "react";
 import CreateAssignment from "../assignment/create-assignment";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/slice/auth-slice";
 
 const menuItems = [
@@ -45,8 +45,6 @@ const menuItems = [
   },
 ];
 
-const CURRENT_USER_ROLE = "ROLE_TEACHER";
-
 const Sidebar = () => {
 
   const dispatch = useDispatch();
@@ -56,6 +54,9 @@ const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState("Home"); //by default on Home
 
   const [openCreateAssignmentWindow, setOpenCreateAssignmentWindow] = useState(false);
+
+  const { auth } = useSelector((store) => store);
+  const CURRENT_USER_ROLE = auth.user?.role;
 
   const openNewAssignmentWindow = () => {
     setOpenCreateAssignmentWindow(true);
@@ -97,9 +98,24 @@ const Sidebar = () => {
   const handleLogout = () => {
     //console.log("log out");
 
+    removeParamsFromUrl();
+
     dispatch(logout());
 
   };
+
+  const removeParamsFromUrl = () => {
+    const queryParams = new URLSearchParams(location.search);
+    
+    // loop through all params and delete them
+    queryParams.forEach((value, key) => {
+      queryParams.delete(key);
+    });
+
+    //navigate after logout otherwise no updates in browser
+    navigate(`${location.pathname}?${queryParams.toString()}`);
+
+  }
 
   return (
     <>

@@ -9,6 +9,8 @@ import SubmissionList from "../../assignment/submission-list";
 import EditAssignment from "../../assignment/edit-assignment";
 import DeleteAssignment from "../../assignment/delete-assignment";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import SubmitAssignment from "../../assignment/submit-assignment";
 
 export default function AssignmentMenu({ item }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -16,6 +18,7 @@ export default function AssignmentMenu({ item }) {
   const [openSubmissionList, setOpenSubmissionList] = useState(false);
   const [openEditWindow, setOpenEditWindow] = useState(false);
   const [openDeleteWindow, setOpenDeleteWindow] = useState(false);
+  const [openSubmissionWindow, setOpenSubmissionWindow] = useState(false);
 
   //not init to false, we get warning(error) in console of invalid object pass
   const isMenuOpen = Boolean(anchorEl);
@@ -23,6 +26,9 @@ export default function AssignmentMenu({ item }) {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
+
+  const { auth } = useSelector((store) => store);
+  const CURRENT_USER_ROLE = auth.user?.role;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -47,17 +53,24 @@ export default function AssignmentMenu({ item }) {
     setOpenStudentList(false);
 
     removeAssignmentIdFromParam();
-    
   };
 
   const seeSubmissions = () => {
+    setOpenSubmissionList(true);
+
+    queryParams.set("assignmentId", item.id);
+    navigate(`${location.pathname}?${queryParams.toString()}`);
+
     handleClose();
 
-    setOpenSubmissionList(true);
   };
 
   const closeSubmissionList = () => {
+    handleClose();
+
     setOpenSubmissionList(false);
+
+    removeAssignmentIdFromParam();
   };
 
   const editAssignment = () => {
@@ -100,7 +113,22 @@ export default function AssignmentMenu({ item }) {
     setOpenDeleteWindow(false);
   };
 
-  const CURRENT_USER_ROLE = "ROLE_TEACHER";
+  const submitAssignment = () => {
+    setOpenSubmissionWindow(true);
+
+    queryParams.set("assignmentId", item.id);
+    navigate(`${location.pathname}?${queryParams.toString()}`);
+
+    handleClose();
+  };
+
+  const closeSubmissionAssignmentWindow = () => {
+    handleClose();
+
+    setOpenSubmissionWindow(false);
+
+    removeAssignmentIdFromParam();
+  };
 
   return (
     <div>
@@ -130,7 +158,17 @@ export default function AssignmentMenu({ item }) {
           <MenuItem onClick={deleteAssignment}>Delete</MenuItem>
         </Menu>
       ) : (
-        <></>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={isMenuOpen}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={submitAssignment}>Submit</MenuItem>
+        </Menu>
       )}
 
       <StudentList
@@ -142,6 +180,7 @@ export default function AssignmentMenu({ item }) {
       <SubmissionList
         open={openSubmissionList}
         handleClose={closeSubmissionList}
+        item={item}
       />
 
       <EditAssignment
@@ -155,6 +194,13 @@ export default function AssignmentMenu({ item }) {
         handleClose={closeDeleteWindow}
         item={item}
       />
+
+      <SubmitAssignment
+        open={openSubmissionWindow}
+        handleClose={closeSubmissionAssignmentWindow}
+        item={item}
+      />
+      
     </div>
   );
 }

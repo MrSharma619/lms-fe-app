@@ -1,7 +1,9 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import SubmissionCard from "../submission-card";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSubmissionByAssignmentId } from "../../../redux/slice/submission-slice";
 
 const style = {
   position: "absolute",
@@ -17,9 +19,23 @@ const style = {
   p: 4,
 };
 
-const submissionList = [1, 2, 3];
 
-export default function SubmissionList({ open, handleClose }) {
+export default function SubmissionList({ open, handleClose, item }) {
+
+  const dispatch = useDispatch();
+
+  const { submission } = useSelector(store => store);
+  const submissionList = submission.submissions.filter((s) => 
+    s.taskId === item.id
+  );
+
+  console.log("hi", submissionList);
+
+  useEffect(() => {
+    dispatch(fetchSubmissionByAssignmentId(item.id));
+
+  }, [dispatch, item.id]);
+
   return (
     <div>
       <Modal
@@ -35,8 +51,9 @@ export default function SubmissionList({ open, handleClose }) {
             )}
 
             {submissionList.map((item, i) => (
-              <SubmissionCard key={i}/>
+              <SubmissionCard item={item} key={i} cardKey={i+1} />
             ))}
+
           </div>
         </Box>
       </Modal>
