@@ -5,7 +5,7 @@ export const fetchAssignments = createAsyncThunk("assignment/fetchAssignments", 
     setAuthHeader(localStorage.getItem("token"), api);
 
     try{
-        const { data } = await api.get("/api/task", {
+        const { data } = await api.get("/api/task/byTeacher", {           //only want assignments created by particular teacher
             params: { status }
         });
 
