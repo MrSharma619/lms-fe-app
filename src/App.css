@@ -1,0 +1,11 @@
+.d-flex{
+    display: flex;
+    position: absolute;
+    top: 44%;
+    left: 40%;
+}
+
+.loading-text{
+    font-size: 32px;
+    padding: 20px;
+}

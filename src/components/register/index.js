@@ -4,7 +4,7 @@ import './style.css';
 import { useDispatch } from "react-redux";
 import { register } from "../../redux/slice/auth-slice";
 
-const RegisterSegment = ({togglePanel}) => {
+const RegisterSegment = ({ togglePanel, setLoading }) => {
 
   const dispatch = useDispatch();
 
@@ -27,9 +27,21 @@ const RegisterSegment = ({togglePanel}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(register(formData));
+    setLoading(true);
+
+    dispatch(register(formData))
+      .then(() => setLoading(false)) // Set loading to false once user profile is fetched
+      .catch((error) => {
+        console.log(
+          "Register error! Please reload."
+        );
+
+        setLoading(false);
+
+      });
 
     //console.log("fd", formData);
+    
   };
 
   return (

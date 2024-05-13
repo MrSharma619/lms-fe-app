@@ -4,7 +4,7 @@ import './style.css';
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slice/auth-slice";
 
-const LoginSegment = ({togglePanel}) => {
+const LoginSegment = ({ togglePanel, setLoading }) => {
 
   const dispatch = useDispatch();
 
@@ -25,7 +25,17 @@ const LoginSegment = ({togglePanel}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(login(formData));
+    setLoading(true);
+
+    dispatch(login(formData))
+      .then(() => setLoading(false))      // Set loading to false once user profile is fetched
+      .catch((error) => {
+        console.log(
+          "Login error! Please reload."
+        );
+
+        setLoading(false);
+      });
 
     //console.log("fd", formData);
   };

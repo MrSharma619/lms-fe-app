@@ -29,7 +29,7 @@ export default function SubmissionList({ open, handleClose, item }) {
     s.taskId === item.id
   );
 
-  console.log("hi", submissionList);
+  //console.log("hi", submissionList);
 
   useEffect(() => {
     dispatch(fetchSubmissionByAssignmentId(item.id));

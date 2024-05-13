@@ -3,7 +3,7 @@ import './style.css';
 import LoginSegment from "../login";
 import RegisterSegment from "../register";
 
-const FrontPage = () => {
+const FrontPage = ({ setLoading }) => {
 
     const [isRegister, setIsRegister] = useState(false);
 
@@ -32,11 +32,11 @@ const FrontPage = () => {
                 <div className="forms h-full">
                     <div className="form-content h-full">
                         <div className="login-form">
-                            <LoginSegment togglePanel={togglePanel} />
+                            <LoginSegment setLoading={setLoading} togglePanel={togglePanel} />
                         </div>
 
                         <div className="register-form">
-                            <RegisterSegment togglePanel={togglePanel} />
+                            <RegisterSegment setLoading={setLoading} togglePanel={togglePanel} />
                         </div>
 
                     </div>

@@ -39,6 +39,7 @@
 
 .box .cover .front-login,
 .box .cover .back-register{
+    background-color: black;          /* even if image fails to load. this will not allow the other section to be visible */
     position: absolute;
     top: 0;
     left: 0;
