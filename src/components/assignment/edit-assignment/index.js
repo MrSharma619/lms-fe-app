@@ -1,12 +1,12 @@
-import { Autocomplete, Button, Grid, TextField } from "@mui/material";
+import { Autocomplete, Button, Chip, Grid, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useDispatch } from "react-redux";
 import { updateAssignment } from "../../../redux/slice/assignment-slice";
-//import dayjs from "dayjs";
+import dayjs from "dayjs";
 
 const style = {
   position: "absolute",
@@ -23,7 +23,6 @@ const style = {
 };
 
 export default function EditAssignment({ open, handleClose, item }) {
-
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState(item);
@@ -50,25 +49,28 @@ export default function EditAssignment({ open, handleClose, item }) {
       ...formData,
       deadline: date,
     });
-
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     formData.deadline = formatDate(formData.deadline);
-    
+
     //console.log("stag", selectedTags);
     formData.tags = selectedTags;
 
     //console.log("fd", formData);
 
-    dispatch(updateAssignment({ assignmentId:item.id, updatedAssignmentData:formData }));
+    dispatch(
+      updateAssignment({
+        assignmentId: item.id,
+        updatedAssignmentData: formData,
+      })
+    );
 
     //console.log("fd", formData);
 
     handleClose();
-
-  }
+  };
 
   const formatDate = (input) => {
     let {
@@ -77,23 +79,15 @@ export default function EditAssignment({ open, handleClose, item }) {
       $D: day,
       $H: hour,
       $m: minute,
-      $s: second
+      $s: second,
     } = input;
 
-    const date = new Date(
-      year,
-      month,
-      day,
-      hour,
-      minute,
-      second
-    );
+    const date = new Date(year, month, day, hour, minute, second);
 
     return date.toISOString();
 
     //return dayjs(input).toISOString();
-
-  }
+  };
 
   // const dt = dayjs(formData.deadline).toDate();
   // console.log(dt);
@@ -148,6 +142,26 @@ export default function EditAssignment({ open, handleClose, item }) {
                   options={tags}
                   value={selectedTags}
                   onChange={handleTagChange}
+                  // use renderOption and renderTags to resolve-> key passed as prop warning
+                  renderOption={(props, option) => {
+                    // console.log("option, ", option);
+                    // console.log("props, ", props);
+
+                    return (
+                      <li {...props} key={option}>
+                        {option}
+                      </li>
+                    );
+                  }}
+                  renderTags={(tagValue, getTagProps) => {
+                    return tagValue.map((option, index) => (
+                      <Chip
+                        {...getTagProps({ index })}
+                        key={option}
+                        label={option}
+                      />
+                    ));
+                  }}
                   getOptionLabel={(option) => option}
                   renderInput={(params) => (
                     <TextField label="Technology" fullWidth {...params} />
@@ -156,39 +170,34 @@ export default function EditAssignment({ open, handleClose, item }) {
               </Grid>
 
               <Grid item xs={12}>
-
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-{/** pending */}
-                  <DateTimePicker 
-                  className="w-full"
-                  label="Deadline" 
-                  name="deadline" 
-                  //value={dt}
-                  onChange={handleDeadlineChange}
-                  renderInput={(params) => (
-                    <TextField {...params} />
-                  )}
+                  <DateTimePicker
+                    className="w-full"
+                    label="Deadline"
+                    name="deadline"
+                    value={formData.deadline ? dayjs(formData.deadline) : null} //changing back to expected input using dayjs
+                    onChange={handleDeadlineChange}
+                    slots={{
+                      textField: (textFieldProps) => (
+                        <TextField {...textFieldProps} />
+                      ),
+                    }}
+                    
                   />
-
                 </LocalizationProvider>
-
               </Grid>
 
               <Grid item xs={12}>
                 <Button
-                fullWidth
-                className="customBtn"         //css provided in some other style.css so no issues 
-                sx={{padding: "1rem"}}
-                type="submit"
+                  fullWidth
+                  className="customBtn" //css provided in some other style.css so no issues
+                  sx={{ padding: "1rem" }}
+                  type="submit"
                 >
                   Update
                 </Button>
-
               </Grid>
-
             </Grid>
-
           </form>
         </Box>
       </Modal>
