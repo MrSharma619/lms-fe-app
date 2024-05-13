@@ -24,7 +24,7 @@ export default function SubmissionList({ open, handleClose, item }) {
 
   const dispatch = useDispatch();
 
-  const { submission } = useSelector(store => store);
+  const submission = useSelector((state) => state.submission);
   const submissionList = submission.submissions.filter((s) => 
     s.taskId === item.id
   );

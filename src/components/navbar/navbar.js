@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
 
-    const { auth } = useSelector(store => store);
+    const auth = useSelector((state) => state.auth);
     const user = auth.user;
 
     return ( 

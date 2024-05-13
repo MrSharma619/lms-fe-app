@@ -5,6 +5,7 @@ import {
   Avatar,
   Button,
   Divider,
+  IconButton,
   ListItem,
   ListItemAvatar,
   ListItemText,
@@ -13,6 +14,7 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserList } from "../../../redux/slice/auth-slice";
 import { assignTaskToUser } from "../../../redux/slice/assignment-slice";
+import { Check } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -30,7 +32,7 @@ const style = {
 
 export default function StudentList({ open, handleClose, item }) {
   const dispatch = useDispatch();
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
 
   const userList = auth.users.filter((user) => user.role === "ROLE_STUDENT");
 
@@ -39,10 +41,8 @@ export default function StudentList({ open, handleClose, item }) {
   }, [dispatch]);
 
   const handleAssignmentToUser = (userId) => {
-
     dispatch(assignTaskToUser({ assignmentId: item.id, userId: userId }));
-
-  }
+  };
 
   return (
     <div>
@@ -53,32 +53,47 @@ export default function StudentList({ open, handleClose, item }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {userList?.map((user, index) => (
-            <div key={index}>
-              <div className="flex items-center justify-between w-full">
-                <div>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        {user.fullName.substring(0, 1).toUpperCase()}
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={user.fullName}
-                      secondary={user.email}
-                    />
-                    {/*  name and email id */}
-                  </ListItem>
-                </div>
+          {userList?.map((user, index) => {
+            const isTaskAssignedToUser = item.assignedUserId && item.assignedUserId.includes(user.id);
 
-                <div>
-                  <Button onClick={() => handleAssignmentToUser(user.id)} className="customBtn">Select</Button>
+            return (
+              <div key={index}>
+                <div className="flex items-center justify-between w-full">
+                  <div>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          {user.fullName.substring(0, 1).toUpperCase()}
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={user.fullName}
+                        secondary={user.email}
+                      />
+                      {/*  name and email id */}
+                    </ListItem>
+                  </div>
+
+                  <div>
+                    {!isTaskAssignedToUser ? (
+                      <Button
+                        onClick={() => handleAssignmentToUser(user.id)}
+                        className="customBtn"
+                      >
+                        Select
+                      </Button>
+                    ) : (
+                      <IconButton color="success">
+                        <Check />
+                      </IconButton>
+                    )}
+                  </div>
                 </div>
+                {index !== userList.length - 1 && <Divider variant="inset" />}{" "}
+                {/* no divider for last item */}
               </div>
-              {index !== userList.length - 1 && <Divider variant="inset" />}{" "}
-              {/* no divider for last item */}
-            </div>
-          ))}
+            );
+          })}
         </Box>
       </Modal>
     </div>

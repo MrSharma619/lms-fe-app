@@ -55,7 +55,7 @@ const Sidebar = () => {
 
   const [openCreateAssignmentWindow, setOpenCreateAssignmentWindow] = useState(false);
 
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
   const CURRENT_USER_ROLE = auth.user?.role;
 
   const openNewAssignmentWindow = () => {

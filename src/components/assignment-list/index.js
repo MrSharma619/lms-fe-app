@@ -14,7 +14,8 @@ const AssignmentList = () => {
   const queryParams = new URLSearchParams(location.search);
   const filterValue = queryParams.get("filter");
 
-  const { assignment, auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
+  const assignment = useSelector((state) => state.assignment);
 
   useEffect(() => {
     if (auth.user?.role === "ROLE_TEACHER") {

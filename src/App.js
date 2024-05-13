@@ -14,7 +14,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
 
   // console.log("token1", token);
   // console.log("auth1", auth);

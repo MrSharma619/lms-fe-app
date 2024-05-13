@@ -27,7 +27,7 @@ export default function AssignmentMenu({ item }) {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
 
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
   const CURRENT_USER_ROLE = auth.user?.role;
 
   const handleClick = (event) => {
