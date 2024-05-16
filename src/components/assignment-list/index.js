@@ -29,23 +29,38 @@ const AssignmentList = () => {
     //console.log(assignment.tasks);
   }, [dispatch, filterValue, auth.user?.role]);
 
-  if (assignment.tasks.length === 0) {
+  if (auth.user?.role === "ROLE_TEACHER" && assignment.tasks.length === 0) {
     return (
       <div className="notFoundTask lg:flex justify-between">
         <div className="d-flex-notfound">
           <div className="p-2 flex-fill">
-            <DoNotDisturbIcon sx={{fontSize: "200px"}} />
-
+            <DoNotDisturbIcon sx={{ fontSize: "200px" }} />
           </div>
           <div className="p-2 flex-fill">
-            <div className="text1-notfound">
-              Nothing to see here - yet
-            </div>
+            <div className="text1-notfound">Nothing to see here - yet</div>
 
             <div className="text2-notfound">
               When you add assignments, they will show up here
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
+  if (auth.user?.role === "ROLE_STUDENT" && assignment.currentUserTasks.length === 0) {
+    return (
+      <div className="notFoundTask lg:flex justify-between">
+        <div className="d-flex-notfound">
+          <div className="p-2 flex-fill">
+            <DoNotDisturbIcon sx={{ fontSize: "200px" }} />
+          </div>
+          <div className="p-2 flex-fill">
+            <div className="text1-notfound">Nothing to see here - yet</div>
+
+            <div className="text2-notfound">
+              When you are given any assignments, they will show up here
+            </div>
           </div>
         </div>
       </div>

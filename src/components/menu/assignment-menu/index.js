@@ -168,6 +168,7 @@ export default function AssignmentMenu({ item }) {
           }}
         >
           <MenuItem onClick={submitAssignment}>Submit</MenuItem>
+          <MenuItem onClick={seeSubmissions}>My Submissions</MenuItem>
         </Menu>
       )}
 
