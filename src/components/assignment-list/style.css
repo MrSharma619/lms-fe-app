@@ -1,0 +1,25 @@
+.notFoundTask{
+    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+    box-shadow: black 0px 0px 10px;
+    margin-top: 10px;
+    padding: 1rem;
+    border-radius: 5px;
+    height: 590px;
+    width: 90%;
+ } 
+
+ .d-flex-notfound{
+    display: flex;
+    align-items: center;
+ }
+
+ .text1-notfound{
+    font-size: 50px;
+    font-weight: bold;
+ }
+
+ .text2-notfound{
+    font-size: 25px;
+    font-style: italic;
+    font-weight: 300;
+ }
