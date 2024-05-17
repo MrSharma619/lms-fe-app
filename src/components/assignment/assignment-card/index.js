@@ -9,7 +9,7 @@ const AssignmentCard = ({ item }) => {
       <div className="cardTask lg:flex justify-between">
         <div className="lg:flex gap-5 items-center space-y-2 w-[90%] lg:w-[70%]">
           
-          <div className="">
+          <div>
             <img
               className="lg: w-[7rem] lg:h-[7rem] object-cover"
               src={item.imageUrl}

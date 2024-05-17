@@ -1,10 +1,9 @@
 .card{
     background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
     box-shadow: black 0px 0px 10px;
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 5px;
  } 
-
 
  .activeMenuItem{
     background-color: black !important;

@@ -1,6 +1,6 @@
 import { Avatar, Button } from "@mui/material";
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateAssignment from "../assignment/create-assignment";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,21 +37,37 @@ const menuItems = [
     value: "",
     role: ["ROLE_TEACHER"],
   },
-  {
-    id: 6,
-    name: "Notifications",
-    value: "Notifications",
-    role: ["ROLE_STUDENT"],
-  },
 ];
 
-const Sidebar = () => {
+//custom hook
+//for smooth render
+//bug while tabbing
+const useActiveMenu = () => {
+  const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState("Home");
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const filter = searchParams.get("filter");
+
+    if (location.pathname === "/notifications") {
+      setActiveMenu("None");           //clear sidebar so that none of the options are highlighted
+    } else if (filter) {
+      setActiveMenu(filter.charAt(0).toUpperCase() + filter.slice(1)); // Capitalize first letter
+    } else {
+      setActiveMenu("Home");
+    }
+  }, [location.pathname, location.search]);
+
+  return [activeMenu, setActiveMenu];
+};
+
+const Sidebar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [activeMenu, setActiveMenu] = useState("Home"); //by default on Home
+  const [activeMenu, setActiveMenu] = useActiveMenu();
 
   const [openCreateAssignmentWindow, setOpenCreateAssignmentWindow] = useState(false);
 
@@ -63,36 +79,55 @@ const Sidebar = () => {
   };
 
   const closeNewAssignmentWindow = () => {
-    
     setOpenCreateAssignmentWindow(false);
 
-    setActiveMenu("Home");
-
+    navigate("/");
   };
 
   const handleMenuChange = (item) => {
-
     const updatedParams = new URLSearchParams(location.search);
 
     if (item.value === "") {
       openNewAssignmentWindow();
-    }
+
+    } 
+
     // /login?filter=hi&sort=asc
-    else if(item.value === "Home"){
-      updatedParams.delete("filter");
+    else if (item.value === "Home") {
 
-      // /login?sort=asc
-      const queryString = updatedParams.toString();
-      const updatedPath = queryString ? `${location.pathname}?${queryString}` : location.pathname
+      if (location.pathname === "/notifications") {
+        navigate("/");
+      } 
+      
+      else {
+        updatedParams.delete("filter");
 
-      navigate(updatedPath);
-    }
-    else{
+        // /login?sort=asc
+        const queryString = updatedParams.toString();
+        const updatedPath = queryString
+          ? `${location.pathname}?${queryString}`
+          : location.pathname;
+
+        navigate(updatedPath);
+
+      }
+
+    } 
+    
+    else {
+      let path = location.pathname;
+
+      if (location.pathname === "/notifications") {
+        path = "/";
+      }
+
       updatedParams.set("filter", item.value.toLowerCase());
-      navigate(`${location.pathname}?${updatedParams.toString()}`)
+      navigate(`${path}?${updatedParams.toString()}`);
+
     }
 
     setActiveMenu(item.value);
+
   };
 
   const handleLogout = () => {
@@ -101,12 +136,11 @@ const Sidebar = () => {
     removeParamsFromUrl();
 
     dispatch(logout());
-
   };
 
   const removeParamsFromUrl = () => {
     const queryParams = new URLSearchParams(location.search);
-    
+
     // loop through all params and delete them
     queryParams.forEach((value, key) => {
       queryParams.delete(key);
@@ -114,13 +148,14 @@ const Sidebar = () => {
 
     //navigate after logout otherwise no updates in browser
     navigate(`${location.pathname}?${queryParams.toString()}`);
-
-  }
+  };
 
   return (
     <>
-      <div className=" card min-h-[85vh] flex flex-col justify-center fixed w-[20vw]">
-        <div className="space-y-5 h-full">              {/*  margin top and bottom */}
+      <div className="card min-h-[85vh] flex flex-col justify-center fixed w-[20vw]">
+        <div className="space-y-5 h-full">
+          {" "}
+          {/*  margin top and bottom */}
           <div className="flex justify-center">
             <Avatar
               sx={{ width: "8rem", height: "8rem" }}
@@ -151,7 +186,10 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <CreateAssignment open={openCreateAssignmentWindow} handleClose={closeNewAssignmentWindow}/>
+      <CreateAssignment
+        open={openCreateAssignmentWindow}
+        handleClose={closeNewAssignmentWindow}
+      />
     </>
   );
 };

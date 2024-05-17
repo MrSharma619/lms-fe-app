@@ -1,0 +1,31 @@
+.notification{
+    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+    box-shadow: black 0px 0px 10px;
+    padding: 1rem;
+    border-radius: 5px;
+ }
+
+ .notificationNotFound{
+    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+    box-shadow: black 0px 0px 10px;
+    margin-top: 10px;
+    padding: 1rem;
+    border-radius: 5px;
+    height: 580px;
+    width: 90%;
+ }
+
+ .d-flex-notification{
+    display: flex;
+    align-items: center;
+    width: 100%;
+ }
+
+ .span-notification{
+    font-weight: 500;
+    font-size: 24px;
+ }
+
+ .done-icon{
+    cursor: pointer;
+ }

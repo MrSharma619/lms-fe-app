@@ -5,7 +5,9 @@ import Navbar from "./components/navbar/navbar";
 import { useEffect, useState } from "react";
 import { getUserProfile } from "./redux/slice/auth-slice";
 import ReactLoading from "react-loading";
-import './App.css';
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Notification from "./components/notification";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -24,9 +26,7 @@ function App() {
     dispatch(getUserProfile(auth.token || token))
       .then(() => setLoading(false)) // Set loading to false once user profile is fetched
       .catch((error) => {
-        console.log(
-          "Some error occurred! Please reload."
-        );
+        console.log("Some error occurred! Please reload.");
 
         setLoading(false);
       });
@@ -55,7 +55,11 @@ function App() {
       {auth.user ? (
         <div>
           <Navbar />
-          <Home />
+
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/notifications" element={<Notification />} />
+          </Routes>
         </div>
       ) : (
         <FrontPage setLoading={setLoading} />
