@@ -12,7 +12,9 @@ body {
   background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
   overflow-x: hidden; /* not related */
   width: 100vw; /* not related */
-  height: 100vh;
+  max-width: 100vw;
+  min-height: 100vh;
+  height: auto;
 }
 
 /* apply background gradient ends */

@@ -3,12 +3,14 @@ import { thunk } from "redux-thunk";
 import authReducer from "./slice/auth-slice";
 import assignmentReducer from "./slice/assignment-slice";
 import submissionReducer from "./slice/submission-slice";
+import notificationReducer from "./slice/notification-slice";
 
 //when you use useSelector in component, so you can get these reducers with same name
 const rootReducer = combineReducers({
     auth: authReducer,
     assignment: assignmentReducer,
-    submission: submissionReducer
+    submission: submissionReducer,
+    notification: notificationReducer,
 })
 
 const store = configureStore({

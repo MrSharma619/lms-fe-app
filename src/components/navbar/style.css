@@ -7,14 +7,14 @@
     background-color: #555;
     color: white;
     text-decoration: none;
-    padding: 15px 26px;
+    padding: 10px 13px;
     position: relative;
     display: inline-block;
     border-radius: 2px;
   }
   
   .notification-a:hover {
-    background: red;
+    background: lightseagreen;
   }
   
   .notification-a .badge {
