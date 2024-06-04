@@ -8,6 +8,8 @@ import ReactLoading from "react-loading";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Notification from "./components/notification";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import SockJsClient from "react-stomp";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -17,6 +19,27 @@ function App() {
   const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth);
+
+  //cors issue so not using gateway(idk)
+  const SOCKET_URL = "http://localhost:5004/ws-message";
+
+  let onConnected = () => {
+    console.log("Connected to web socket...");
+    setLoading(false);
+  };
+
+  let onDisconnect = () => {
+    console.log("Disconnected from web socket...");
+    setLoading(true);
+  };
+
+  let onMessageReceived = (msg) => {
+    //console.log(msg);
+
+    if (auth.user.id === msg.recipientId) {
+      toast.info(msg.message);
+    }
+  };
 
   // console.log("token1", token);
   // console.log("auth1", auth);
@@ -54,6 +77,24 @@ function App() {
     <div>
       {auth.user ? (
         <div>
+          <SockJsClient
+            url={SOCKET_URL}
+            topics={["/topic/message"]}
+            onConnect={onConnected}
+            onDisconnect={onDisconnect}
+            onMessage={(msg) => onMessageReceived(msg)}
+            debug={false}
+          />
+
+          <ToastContainer
+            autoClose={10000}
+            position="top-right"
+            closeOnClick
+            pauseOnHover
+            transition={Slide}
+            hideProgressBar={false}
+          />
+
           <Navbar />
 
           <Routes>
