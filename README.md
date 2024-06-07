@@ -141,3 +141,13 @@ http://localhost:3000
 ### Note ### 
 If you face issue in connecting via gateway, try disabling firewall of your antivirus.
 
+This project is built using microservices architecture.
+Other services repo:
+
+* [Eureka server](https://github.com/MrSharma619/lms-eureka-server)
+* [User service](https://github.com/MrSharma619/lms-user-service)
+* [Task service](https://github.com/MrSharma619/lms-task-service)
+* [Submission service](https://github.com/MrSharma619/lms-submission-service)
+* [Notification service](https://github.com/MrSharma619/lms-notification-service)
+* [Gateway server](https://github.com/MrSharma619/lms-gateway-server)
+
